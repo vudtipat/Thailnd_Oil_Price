@@ -1,5 +1,8 @@
+from datetime import datetime
 from bs4 import BeautifulSoup
 import requests
+import schedule
+import time
 
 label = {   
             "HPDS.jpg":"ไฮพรีเมียมดีเซล",
@@ -35,6 +38,13 @@ def get_Oil_price():
         #print(tmp)
         if(len(tmp) > 1):
             data.append(tmp)
+    print(datetime.now())
     print(data)
 
-get_Oil_price()
+schedule.every(5).minutes.do(get_Oil_price)
+
+while(1):
+    schedule.run_pending()
+    if not schedule.jobs:
+        break
+    time.sleep(1)
